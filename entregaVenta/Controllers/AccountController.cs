@@ -1,8 +1,5 @@
 ﻿using entregaVenta.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using ventasControl.Data;
@@ -32,10 +29,26 @@ namespace entregaVenta.Controllers
                 if (user != null)
                 {
                     FormsAuthentication.SetAuthCookie(model.Email, model.RememberMe);
-                    return RedirectToAction("Index", "Home");
-                }
+                    TempData["UserRole"] = user.Type; // Store the user role in TempData
 
-                ModelState.AddModelError("", "Invalid login attempt.");
+                    // Redirect based on the user role
+                    switch (user.Type)
+                    {
+                        case "ADMIN":
+                            return RedirectToAction("Index", "Home");
+                        case "Seller":
+                            return RedirectToAction("SellerHome", "Home");
+                        case "Accountant":
+                            return RedirectToAction("AccountantHome", "Home");
+                        default:
+                            ModelState.AddModelError("", "Usuario Desconocido.");
+                            break;
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid login attempt. User does not exist.");
+                }
             }
 
             return View(model);
@@ -45,7 +58,7 @@ namespace entregaVenta.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account"); // Redirect to the home page or login page
         }
     }
 }

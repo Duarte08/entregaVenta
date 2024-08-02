@@ -26,5 +26,17 @@ namespace entregaVenta.Controllers
 
             return View();
         }
+        public ActionResult SellerHome()
+        {
+            ViewBag.UserRole = TempData["UserRole"] as string;
+            return View();
+        }
+
+        public ActionResult AccountantHome()
+        {
+            ViewBag.UserRole = TempData["UserRole"] as string;
+            return View();
+        }
+
     }
 }
