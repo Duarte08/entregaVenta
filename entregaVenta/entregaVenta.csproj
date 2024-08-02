@@ -220,6 +220,8 @@
     <Content Include="Views\Sales\Index.cshtml" />
     <Content Include="Views\Products\_ProductList.cshtml" />
     <Content Include="Views\Sales\_AccountList.cshtml" />
+    <Content Include="Views\Account\_SalesTablePartial.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

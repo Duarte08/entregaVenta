@@ -15,9 +15,12 @@ namespace entregaVenta.Controllers
         {
             return View();
         }
+
         // GET: Accounting
         public ActionResult Index()
         {
+            var userRole = TempData["UserRole"] as string;
+            ViewBag.UserRole = userRole;
             return View();
         }
 
@@ -26,6 +29,12 @@ namespace entregaVenta.Controllers
         {
             var sales = db.Sales.ToList();
             return PartialView("_AccountList", sales);
+        }
+
+        public ActionResult LoadSalesContador()
+        {
+            var sales = db.Sales.ToList();
+            return PartialView("_SalesTablePartial", sales);
         }
 
         // POST: /Account/Login
@@ -51,7 +60,7 @@ namespace entregaVenta.Controllers
                         case "Seller":
                             return RedirectToAction("SellerHome", "Home");
                         case "Accountant":
-                            return RedirectToAction("AccountantHome", "Home");
+                            return RedirectToAction("Index", "Account");
                         default:
                             ModelState.AddModelError("", "Usuario Desconocido.");
                             break;
