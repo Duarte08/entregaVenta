@@ -1,0 +1,46 @@
+﻿@model IEnumerable<ventasControl.Models.Sale>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Client</th>
+            <th>Description</th>
+            <th>Contact</th>
+            <th>Total Price</th>
+            <th>Creation Date</th>
+            <th>Paid Date</th>
+            <th>Is Paid</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Client</td>
+                    <td>@item.Description</td>
+                    <td>@item.Contact</td>
+                    <td>@item.TotalPrice</td>
+                    <td>@item.CreationDate</td>
+                    <td>@item.PaidDate?.ToString("yyyy-MM-dd")</td>
+                    <td>@item.IsPaid</td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="9">No sales found.</td>
+            </tr>
+        }
+    </tbody>
+</table>

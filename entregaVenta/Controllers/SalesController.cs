@@ -20,6 +20,12 @@ namespace entregaVenta.Controllers
         {
             return View(db.Sales.ToList());
         }
+        // GET: Sales/LoadSales
+        public ActionResult LoadSales()
+        {
+            var sales = db.Sales.ToList();
+            return PartialView("_AccountList", sales); // Asegúrate de que la vista parcial sea correcta
+        }
 
         // GET: Sales/Details/5
         public ActionResult Details(int? id)

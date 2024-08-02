@@ -14,17 +14,18 @@ namespace entregaVenta.Controllers
     public class ProductsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        //private readonly ApplicationDbContext _context;
-        //public ProductsController(ApplicationDbContext context)
-        //{
-        //    _context = context;
-        //}
+
         // GET: Products
         public ActionResult Index()
         {
-            //var products = _context.Products?.ToList() ?? new List<Product>();
-            return View(db.Products.ToList());
-            //return View(products);
+            return View();
+        }
+
+        // GET: Products/LoadProducts
+        public ActionResult LoadProducts()
+        {
+            var products = db.Products.ToList();
+            return PartialView("_ProductList", products);
         }
 
         // GET: Products/Details/5
@@ -49,8 +50,6 @@ namespace entregaVenta.Controllers
         }
 
         // POST: Products/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,UnitPrice,Quantity,Active")] Product product)
@@ -81,8 +80,6 @@ namespace entregaVenta.Controllers
         }
 
         // POST: Products/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,UnitPrice,Quantity,Active")] Product product)

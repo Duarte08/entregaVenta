@@ -4,10 +4,6 @@
 }
 @model IEnumerable<ventasControl.Models.Product>
 
-@{
-    ViewBag.Title = "Index";
-}
-
 <main>
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -17,68 +13,60 @@
         </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">Hola2</div>
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+            <div id="sales-list">
+                <!-- Aquí se cargarán las ventas mediante Ajax -->
+            </div>
+        </div>
         <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">Hola3</div>
         <div class="tab-pane fade" id="nav-product" role="tabpanel" aria-labelledby="nav-product-tab" tabindex="0">
             <p>
                 <button>
-                  @Html.ActionLink("Nuevo Producto", "Create", "Products")
-
+                    @Html.ActionLink("Nuevo Producto", "Create", "Products")
                 </button>
             </p>
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Unit Price</th>
-                        <th>Quantity</th>
-                        <th>Active</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model != null && Model.Any())
-                    {
-                        foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @item.Name
-                                </td>
-                                <td>
-                                    @item.UnitPrice
-                                </td>
-                                <td>
-                                    @item.Quantity
-                                </td>
-                                <td>
-                                    @item.Active
-                                </td>
-                                <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                                </td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="5">No products found.</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <div id="product-list">
+                <!-- Aquí se cargarán los productos mediante Ajax -->
+            </div>
         </div>
     </div>
- Logout button 
-<div class="mt-3">
+    <div class="mt-3">
         <form method="post" action="/Account/Logout">
             <button type="submit" class="btn btn-danger">Logout</button>
         </form>
     </div>
 </main>
 
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#nav-product-tab').on('shown.bs.tab', function () {
+                $.ajax({
+                    url: '@Url.Action("LoadProducts", "Products")',
+                    type: 'GET',
+                    success: function (result) {
+                        $('#product-list').html(result);
+                    },
+                    error: function () {
+                        alert('Error loading product data.');
+                    }
+                });
+            });
 
+            $('#nav-profile-tab').on('shown.bs.tab', function () {
+                $.ajax({
+                    url: '@Url.Action("LoadSales", "Sales")',
+                    type: 'GET',
+                    success: function (result) {
+                        $('#sales-list').html(result);
+                    },
+                    error: function () {
+                        alert('Error loading sales data.');
+                    }
+                });
+            });
+        });
+    </script>
+}

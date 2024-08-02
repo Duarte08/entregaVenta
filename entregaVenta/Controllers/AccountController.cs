@@ -15,6 +15,18 @@ namespace entregaVenta.Controllers
         {
             return View();
         }
+        // GET: Accounting
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        // GET: Sales/LoadAccount
+        public ActionResult LoadSales()
+        {
+            var sales = db.Sales.ToList();
+            return PartialView("_AccountList", sales);
+        }
 
         // POST: /Account/Login
         [HttpPost]
